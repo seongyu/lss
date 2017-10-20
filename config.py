@@ -1,3 +1,4 @@
+import os
 import os.path
 
 DTP = 'D'
@@ -26,6 +27,10 @@ CASSANDRA_KEYSPACES = ['lora_streaming']
 LOG_BACKUP_COUNT = 100
 LOG_MAX_BYTES = 10 * 1000 * 1000
 LOG_DIR_PATH = os.path.join(ROOT_PATH, 'log')
+try:
+	os.stat(LOG_DIR_PATH)
+except:
+	os.mkdir(LOG_DIR_PATH)
 LOG_FILENAME = 'streaming.log'
 
 MQ_HOST = HOST
