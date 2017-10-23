@@ -1,14 +1,14 @@
 import os
 import os.path
 
-DTP = 'T'
+DTP = 'D'
 
 if DTP == 'S':
-	HOST = 'lora:lora@10.140.0.8'
+	HOST = '10.140.0.8'
 elif DTP == 'T':
 	HOST = '35.201.132.176'
 else :
-	HOST = 'lora:lora@localhost'
+	HOST = 'localhost'
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -38,3 +38,5 @@ LOG_FILENAME = 'streaming.log'
 MQ_HOST = HOST
 MQ_PORT = 5672
 MQ_QUEUE = 'lss'
+MQ_USER = 'lora'
+MQ_PSWD = 'lora'

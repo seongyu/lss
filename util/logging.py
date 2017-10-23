@@ -4,7 +4,7 @@ from logging import WARNING	# 30
 from logging import INFO	# 20
 from logging import DEBUG	# 10
 from logging import NOTSET	#  0
-from streaming import config
+from lss import config
 
 import logging
 import logging.handlers
