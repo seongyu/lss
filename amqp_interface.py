@@ -1,4 +1,11 @@
 import config
+from lss.util import logging
+logger = logging.getLogger()
+if config.DTP=='D':
+	logger.setLevel(logging.DEBUG)
+else :
+	logger.setLevel(logging.ERROR)
+
 import pika
 from lss.cassandra.handler import store00
 import json
@@ -18,7 +25,7 @@ def callback(ch,method,properties,body):
 		}
 		store00(nrr)
 	except Exception as err :
-		print(err)
+		logger.error(err)
 		pass
 
 

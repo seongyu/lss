@@ -1,12 +1,16 @@
+from lss import config
+from lss.util import logging
+logger = logging.getLogger()
+if config.DTP=='D':
+	logger.setLevel(logging.DEBUG)
+else :
+	logger.setLevel(logging.ERROR)
+
 from .connection import setup
 from .lora_streaming.models import Store00
 
 from datetime import datetime
 import json
-
-from lss.util import logging
-logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
 
 def store00(arr):
 	try:

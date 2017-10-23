@@ -1,9 +1,12 @@
+from lss import config
 from lss.util import logging
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+if config.DTP=='D':
+	logger.setLevel(logging.DEBUG)
+else :
+	logger.setLevel(logging.ERROR)
 
 from cassandra.cqlengine import connection
-from lss import config
 from lss.exception import *
 from lss.util.eval import *
 
