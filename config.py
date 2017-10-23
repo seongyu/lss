@@ -1,12 +1,14 @@
 import os
 import os.path
 
-DTP = 'D'
+DTP = 'T'
 
-if DTP !='D':
-	HOST = '10.140.0.8'
+if DTP == 'S':
+	HOST = 'lora:lora@10.140.0.8'
+elif DTP == 'T':
+	HOST = '35.201.132.176'
 else :
-	HOST = 'localhost'
+	HOST = 'lora:lora@localhost'
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
