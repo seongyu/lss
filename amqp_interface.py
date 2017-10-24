@@ -23,6 +23,7 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr[typ]
 		}
+		print(nrr)
 		store00(nrr)
 	except Exception as err :
 		logger.error(err)
@@ -39,9 +40,15 @@ def setup_amqp():
 		)
 	connection = pika.BlockingConnection(conn_config)
 	channel = connection.channel()
-	channel.queue_declare(queue=config.MQ_QUEUE)
+	channel.exchange_declare(exchange=config.MQ_QUEUE,exchange_type='fanout')
 
-	channel.basic_consume(callback,queue=config.MQ_QUEUE)
+	result = channel.queue_declare(exclusive=True)
+	queue_name = result.method.queue
+	channel.queue_bind(exchange=config.MQ_QUEUE, queue=queue_name)
+
+	# channel.queue_bind(exchange=config.MQ_QUEUE,queue=config.MQ_QUEUE)
+
+	channel.basic_consume(callback,queue=queue_name,no_ack=True)
 	
 	print('Interface activated. To exit press CTRL+C')
 	channel.start_consuming()

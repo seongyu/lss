@@ -2,8 +2,9 @@ import config
 import pika
 import json
 from datetime import datetime
+import pytz
 
-arr = {'eui':'test',"timestamp":"2017-08-23T07:42:51.081853Z",'stat':''}
+arr = {'eui':'test',"timestamp":"2017-08-23T07:42:51.081853Z",'stat':'last test'}
 
 
 credentials = pika.PlainCredentials(config.MQ_USER,config.MQ_PSWD)
@@ -13,10 +14,16 @@ def loop(i):
 	connection = pika.BlockingConnection(conn_config)
 	channel = connection.channel()
 
-	channel.queue_declare(queue=config.MQ_QUEUE)
-	channel.basic_publish(exchange='',routing_key=config.MQ_QUEUE,body=json.dumps(arr))
+	channel.exchange_declare(exchange=config.MQ_QUEUE, exchange_type='fanout')
+
+	# for test code ....
+	time = datetime.now()
+	arr['timestamp'] = time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+	arr['stat'] = {'countsssss':i}
+
+	channel.basic_publish(exchange=config.MQ_QUEUE,routing_key="",body=json.dumps(arr))
 	connection.close()
-	print('send message =====> '+arr['ti'])
+	print('send message =====> ', arr['stat'])
 
 if __name__=='__main__':
 	for i in range(1):
