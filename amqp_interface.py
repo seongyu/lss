@@ -1,7 +1,7 @@
 import config
 from lss.util import logging
 logger = logging.getLogger()
-if config.DTP=='S':
+if config.DTP=='D':
 	logger.setLevel(logging.DEBUG)
 else :
 	logger.setLevel(logging.ERROR)
