@@ -23,7 +23,6 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr[typ]
 		}
-		print(nrr)
 		store00(nrr)
 	except Exception as err :
 		logger.error(err)
