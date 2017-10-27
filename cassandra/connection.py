@@ -23,7 +23,13 @@ def register_connection():
 	logger.debug('*** Registed successfully')
 
 def setup(keyspace):
-	connection.setup(config.CASSANDRA_CONTACT_POINTS[config.DTP], keyspace_DTP(keyspace))
+	try :
+		connection.setup(config.CASSANDRA_CONTACT_POINTS[config.DTP], keyspace_DTP(keyspace))
+	except Exception as err :
+		logger.error(err)
+		unregister_connection()
+		register_connection()
+
 
 def unregister_connection():
 	logger.debug('Connecting unregistration start ***')
