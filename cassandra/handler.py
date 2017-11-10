@@ -21,7 +21,7 @@ def store00(arr):
 		tms = datetime.now()
 		msg = ''
 	
-	setup('lora_streaming')
+	setup('lora_streaming_t')
 	Store00.create(
 		eui = arr['eui'],
 		tms = tms,
