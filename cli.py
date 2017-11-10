@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 import pytz
 
-arr = {'eui':'test',"timestamp":"2017-08-23T07:42:51.081853Z",'stat':'last test'}
+arr = {'eui':'test',"timestamp":"2017-08-23T07:42:51.081853Z",'test':''}
 
 
 credentials = pika.PlainCredentials(config.MQ_USER,config.MQ_PSWD)
@@ -19,11 +19,11 @@ def loop(i):
 	# for test code ....
 	time = datetime.now()
 	arr['timestamp'] = time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-	arr['stat'] = {'countsssss':i}
+	arr['test'] = {'countsssss':i}
 
 	channel.basic_publish(exchange=config.MQ_QUEUE,routing_key="",body=json.dumps(arr))
 	connection.close()
-	print('send message =====> ', arr['stat'])
+	print('send message =====> ', arr['test'])
 
 if __name__=='__main__':
 	for i in range(1):

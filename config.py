@@ -1,7 +1,7 @@
 import os
 import os.path
 
-DTP = 'S'
+DTP = 'D'
 
 if DTP == 'S':
 	HOST = '10.140.0.8'
@@ -27,11 +27,17 @@ CASSANDRA_CONTACT_POINTS = {
 		'10.140.0.5',
 		'10.140.0.6',
 	],
-	'D': ['127.0.0.1']
+	'D':[
+		'10.140.0.2',
+		'10.140.0.3',
+		'10.140.0.4',
+		'10.140.0.5',
+		'10.140.0.6',
+	]
 }
 
 CASSANDRA_DB_PATH = os.path.join(ROOT_PATH,'db','cassandra')
-CASSANDRA_KEYSPACES = ['lora_streaming']
+CASSANDRA_KEYSPACES = ['lora_streaming_t']
 
 LOG_BACKUP_COUNT = 100
 LOG_MAX_BYTES = 10 * 1000 * 1000
