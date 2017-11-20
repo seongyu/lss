@@ -1,7 +1,7 @@
 import os
 import os.path
 
-DTP = 'T'
+DTP = 'S'
 
 if DTP == 'S':
 	HOST = '10.140.0.8'
