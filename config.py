@@ -1,10 +1,11 @@
 import os
 import os.path
 
-DTP = 'S'
+DTP = 'T'
 
 if DTP == 'S':
-	HOST = '10.140.0.8'
+	HOST = 'localhost'
+	# HOST = '10.140.0.8'
 elif DTP == 'T':
 	HOST = '35.201.132.176'
 else :
