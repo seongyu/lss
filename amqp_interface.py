@@ -59,13 +59,4 @@ def setup_amqp():
 	channel.start_consuming()
 
 if __name__=='__main__':
-	pid = str(os.getpid())
-	pidfile = '/tmp/amqp_interface.pid'
-	if os.path.isfile(pidfile):
-		print("%s is already exists, exiting",pidfile)
-		sys.exit()
-		file(pidfile, 'w').write(pid)
-	try:
-		setup_amqp()
-	finally:
-		os.unlink(pidfile)
+	setup_amqp()

@@ -37,7 +37,11 @@ CASSANDRA_CONTACT_POINTS = {
 }
 
 CASSANDRA_DB_PATH = os.path.join(ROOT_PATH,'db','cassandra')
-CASSANDRA_KEYSPACES = ['lora_streaming_t']
+CASSANDRA_KEYSPACES = {
+	'S' : ['lora_streaming'],
+	'T' : ['lora_streaming_t'],
+	'D' : ['lora_streaming_t']
+}
 
 LOG_BACKUP_COUNT = 100
 LOG_MAX_BYTES = 10 * 1000 * 1000

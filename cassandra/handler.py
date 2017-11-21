@@ -21,7 +21,7 @@ def store00(arr):
 		tms = datetime.now()
 		msg = ''
 	
-	setup('lora_streaming_t')
+	setup(config.CASSANDRA_KEYSPACES[config.DTP])
 	Store00.create(
 		eui = arr['eui'],
 		tms = tms,
