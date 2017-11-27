@@ -9,7 +9,7 @@ logger = logging.getLogger()
 if config.DTP=='D':
 	logger.setLevel(logging.DEBUG)
 elif config.DTP=='T':
-	logger.setLevel(logging.info)
+	logger.setLevel(logging.INFO)
 else :
 	logger.setLevel(logging.ERROR)
 
