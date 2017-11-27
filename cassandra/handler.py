@@ -20,8 +20,7 @@ def store00(arr):
 		logger.error(err)
 		tms = datetime.now()
 		msg = ''
-	
-	setup(config.CASSANDRA_KEYSPACES[config.DTP])
+	setup('lora_streaming_t')
 	Store00.create(
 		eui = arr['eui'],
 		tms = tms,

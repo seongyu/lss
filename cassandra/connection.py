@@ -15,7 +15,7 @@ else :
 def keyspace_DTP(keyspace):
 	eval_config_DTP()
 
-	if keyspace not in config.CASSANDRA_KEYSPACES[config.DTP]:
+	if keyspace not in config.CASSANDRA_KEYSPACES:
 		raise UnknownCassandraKeyspace
 	return keyspace # It could update if needs DTP process
 
@@ -27,8 +27,8 @@ def register_connection():
 def setup(keyspace):
 	try :
 		connection.set_default_connection(config.HOST)
-	except CQLEngineException as err :
-		logger.error(err)
+	except Exception as err :
+		logger.error('=====CQLEngineException=====',err)
 		unregister_connection()
 		register_connection()
 
@@ -37,6 +37,5 @@ def setup(keyspace):
 
 def unregister_connection():
 	logger.debug('Connecting unregistration start ***')
-
 	connection.unregister_connection(config.HOST)
 	logger.debug('*** Unregisted successfully')
