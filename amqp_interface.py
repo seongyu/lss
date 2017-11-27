@@ -8,6 +8,8 @@ logger = logging.getLogger()
 
 if config.DTP=='D':
 	logger.setLevel(logging.DEBUG)
+elif config.DTP=='T':
+	logger.setLevel(logging.info)
 else :
 	logger.setLevel(logging.ERROR)
 
@@ -26,7 +28,7 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr[typ]
 		}
-		logger.debug(nrr)
+		logger.info(nrr)
 		store00(nrr)
 	except Exception as err :
 		pass

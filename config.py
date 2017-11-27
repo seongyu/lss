@@ -4,12 +4,16 @@ import os.path
 DTP = 'T'
 
 if DTP == 'S':
+	MQ_HOST = 'localhost'
 	HOST = '10.140.0.8'
 elif DTP == 'T':
-	HOST = '10.140.0.8'
+	# MQ_HOST = '35.201.132.176'
+	MQ_HOST = 'localhost'
+	HOST = '10.140.0.8' #for cassandra name
 	# HOST = '35.201.132.176'
 else :
 	HOST = 'localhost'
+	MQ_HOST = 'localhost'
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -44,7 +48,6 @@ except:
 	os.mkdir(LOG_DIR_PATH)
 LOG_FILENAME = 'streaming.log'
 
-MQ_HOST = 'localhost'
 MQ_PORT = 5672
 MQ_QUEUE = 'lss'
 MQ_USER = 'lora'
