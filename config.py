@@ -44,7 +44,7 @@ except:
 	os.mkdir(LOG_DIR_PATH)
 LOG_FILENAME = 'streaming.log'
 
-MQ_HOST = 'localhost'
+MQ_HOST = '35.201.132.176'
 MQ_PORT = 5672
 MQ_QUEUE = 'lss'
 MQ_USER = 'lora'
