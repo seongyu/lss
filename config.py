@@ -7,8 +7,8 @@ if DTP == 'S':
 	MQ_HOST = 'localhost'
 	HOST = '10.140.0.8'
 elif DTP == 'T':
-	# MQ_HOST = '35.201.132.176'
-	MQ_HOST = 'localhost'
+	# MQ_HOST = '35.201.132.176' # for develop computer
+	MQ_HOST = 'localhost' # for GCP server
 	HOST = '10.140.0.8' #for cassandra name
 	# HOST = '35.201.132.176'
 else :

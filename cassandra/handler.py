@@ -20,7 +20,7 @@ def store00(arr):
 		logger.error(err)
 		tms = datetime.now()
 		msg = ''
-		
+
 	setup('lora_streaming_t')
 	Store00.create(
 		eui = arr['eui'],
@@ -28,3 +28,12 @@ def store00(arr):
 		typ = arr['typ'],
 		msg = msg
 		)
+	# Store00.create(
+	# 	eui = arr['eui'],
+	# 	tms = tms,
+	# 	fid = arr['fid'],
+	# 	rcid = arr['rcid'],
+	# 	sdid = arr['sdid'],
+	# 	typ = arr['typ'],
+	# 	msg = msg
+	# 	)

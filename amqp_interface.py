@@ -13,6 +13,14 @@ elif config.DTP=='T':
 else :
 	logger.setLevel(logging.ERROR)
 
+def f(arr, val):
+	it = ''
+	try :
+		it = arr[val]
+	except :
+		it = 'none'
+	finally :
+		return it
 
 def callback(ch,method,properties,body):
 	try :
@@ -20,11 +28,15 @@ def callback(ch,method,properties,body):
 		orr = json.loads(body)
 		ks = orr.keys()
 		for k in ks :
-			if k not in ('eui','timestamp') :
+			if k not in ('eui','timestamp','flow_id','recv_component_id','send_component_id') :
 				typ = k
+
 		nrr = {
 		'eui':orr['eui'],
 		'tms':orr['timestamp'],
+		'fid':f(orr,'flow_id'),
+		'rcid':f(orr,'recv_component_id'),
+		'sdid':f(orr,'send_component_id'),
 		'typ':typ,
 		'msg':orr[typ]
 		}
