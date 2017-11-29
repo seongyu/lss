@@ -7,7 +7,7 @@ case $1 in
 		echo 'Kill previous processes'
 		kill -9 $process_id
 		echo '=== Start lss service ==='
-		python3 amqp_interface.py &
+		python3.6 amqp_interface.py &
 		echo 'Successfully started >>>';;
 	"end")
 		echo '=== Kill AMQP Interface process ==='
