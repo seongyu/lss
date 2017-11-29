@@ -7,7 +7,8 @@ else :
 	logger.setLevel(logging.ERROR)
 
 from .connection import setup
-from .lora_streaming.models import Store00
+# from .lora_streaming.models import Store00
+from .lora_streaming.models import Store01
 
 from datetime import datetime
 import json
@@ -20,20 +21,23 @@ def store00(arr):
 		logger.error(err)
 		tms = datetime.now()
 		msg = ''
-
-	setup('lora_streaming_t')
-	Store00.create(
-		eui = arr['eui'],
-		tms = tms,
-		typ = arr['typ'],
-		msg = msg
-		)
-	# Store00.create(
-	# 	eui = arr['eui'],
-	# 	tms = tms,
-	# 	fid = arr['fid'],
-	# 	rcid = arr['rcid'],
-	# 	sdid = arr['sdid'],
-	# 	typ = arr['typ'],
-	# 	msg = msg
-	# 	)
+	try:
+		setup('lora_streaming_t')
+		# Store00.create(
+		# 	eui = arr['eui'],
+		# 	tms = tms,
+		# 	typ = arr['typ'],
+		# 	msg = msg
+		# 	)
+		Store01.create(
+			eui = arr['eui'],
+			tms = tms,
+			fid = arr['fid'],
+			rcid = arr['rcid'],
+			sdid = arr['sdid'],
+			typ = arr['typ'],
+			msg = msg
+			)
+	except Exception as err:
+		logger.error(err)
+		pass

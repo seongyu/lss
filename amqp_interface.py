@@ -18,7 +18,10 @@ def f(arr, val):
 	try :
 		it = arr[val]
 	except :
-		it = 'none'
+		if val=='flow_id':
+			it = 00
+		else:
+			it = 'none'
 	finally :
 		return it
 
