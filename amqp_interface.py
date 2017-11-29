@@ -47,8 +47,7 @@ def callback(ch,method,properties,body):
 		# store00(nrr)
 		nrr = {} 
 		orr = json.loads(body)
-		logger.info(orr)
-		for tyn in orr['msg']:
+		for tyn in orr['message']:
 			typ = tyn
 		nrr = {
 		'eui':orr['eui'],
@@ -57,8 +56,9 @@ def callback(ch,method,properties,body):
 		'rcid':f(orr,'recv_component_id'),
 		'sdid':f(orr,'send_component_id'),
 		'typ':typ,
-		'msg':orr[msg][typ]
+		'msg':orr['message'][typ]
 		}
+		logger.info(nrr)
 		store00(nrr)
 	except Exception as err :
 		pass
