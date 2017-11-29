@@ -27,8 +27,27 @@ def f(arr, val):
 
 def callback(ch,method,properties,body):
 	try :
+		# nrr = {} 
+		# orr = json.loads(body)
+		# ks = orr.keys()
+		# for k in ks :
+		# 	if k not in ('eui','timestamp','flow_id','recv_component_id','send_component_id') :
+		# 		typ = k
+
+		# nrr = {
+		# 'eui':orr['eui'],
+		# 'tms':orr['timestamp'],
+		# 'fid':f(orr,'flow_id'),
+		# 'rcid':f(orr,'recv_component_id'),
+		# 'sdid':f(orr,'send_component_id'),
+		# 'typ':typ,
+		# 'msg':orr[typ]
+		# }
+		# logger.info(nrr)
+		# store00(nrr)
 		nrr = {} 
 		orr = json.loads(body)
+		logger.info(orr)
 		for tyn in orr['msg']:
 			typ = tyn
 		nrr = {
@@ -40,7 +59,6 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr[msg][typ]
 		}
-		logger.info(nrr)
 		store00(nrr)
 	except Exception as err :
 		pass
