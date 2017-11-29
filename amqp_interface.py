@@ -29,11 +29,8 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
 		orr = json.loads(body)
-		ks = orr.keys()
-		for k in ks :
-			if k not in ('eui','timestamp','flow_id','recv_component_id','send_component_id') :
-				typ = k
-
+		for tyn in orr['msg']:
+			typ = tyn
 		nrr = {
 		'eui':orr['eui'],
 		'tms':orr['timestamp'],
@@ -41,7 +38,7 @@ def callback(ch,method,properties,body):
 		'rcid':f(orr,'recv_component_id'),
 		'sdid':f(orr,'send_component_id'),
 		'typ':typ,
-		'msg':orr[typ]
+		'msg':orr[msg][typ]
 		}
 		logger.info(nrr)
 		store00(nrr)
