@@ -15,7 +15,7 @@ import json
 
 def store00(arr):
 	try:
-		msg = json.dumps(arr['msg'])
+		msg = arr[arr['typ']]
 		tms = datetime.strptime(arr['tms'], "%Y-%m-%dT%H:%M:%S.%fZ")
 	except Exception as err:
 		logger.error(err)
