@@ -15,14 +15,14 @@ import json
 
 def store00(arr):
 	try:
-		msg = arr[arr['typ']]
+		msg = json.dumps(arr['msg'])
 		tms = datetime.strptime(arr['tms'], "%Y-%m-%dT%H:%M:%S.%fZ")
 	except Exception as err:
-		logger.error(err)
+		logger.error('sotre01, parsing error. ',err)
 		tms = datetime.now()
 		msg = ''
+	setup('lora_streaming_t')
 	try:
-		setup('lora_streaming_t')
 		# Store00.create(
 		# 	eui = arr['eui'],
 		# 	tms = tms,
@@ -39,5 +39,5 @@ def store00(arr):
 			msg = msg
 			)
 	except Exception as err:
-		logger.error(err)
+		logger.error('store01 save error. ',err)
 		pass
