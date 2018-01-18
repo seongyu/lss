@@ -32,8 +32,8 @@ def callback(ch,method,properties,body):
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 
-		logger.info('============orr============')
-		logger.info(orr)
+		# logger.info('============orr============')
+		# logger.info(orr)
 		nrr = {
 		'pid':orr['packet_id'],
 		'cid':orr['component_id'],
