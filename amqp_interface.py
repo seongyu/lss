@@ -28,12 +28,13 @@ def f(arr, val):
 def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
+		logger.info(body)
 		orr = json.loads(body)
 		for tyn in orr['message']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 
 		logger.info('============orr============')
-		logger.info(orr)
+		
 		nrr = {
 		'pid':orr['packet_id'],
 		'cid':orr['component_id'],
