@@ -45,6 +45,8 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr['msg'][typ]
 		}
+		logger.info(' rcid : '+nrr['rcid']+' sdid : '+nrr['sdid'])
+
 		store00(nrr)
 	except Exception as err :
 		pass
