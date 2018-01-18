@@ -21,12 +21,12 @@ def keyspace_DTP(keyspace):
 
 def register_connection():
 	logger.debug('Connecting registration start ***')
-	connection.register_connection(config.HOST, config.CASSANDRA_CONTACT_POINTS[config.DTP], default=True)
+	connection.register_connection(config.CA_HOST, config.CASSANDRA_CONTACT_POINTS[config.DTP], default=True)
 	logger.debug('*** Registed successfully')
 
 def setup(keyspace):
 	try :
-		connection.set_default_connection(config.HOST)
+		connection.set_default_connection(config.CA_HOST)
 	except Exception as err :
 		logger.error('=====CQLEngineException=====',err)
 		unregister_connection()
@@ -37,5 +37,5 @@ def setup(keyspace):
 
 def unregister_connection():
 	logger.debug('Connecting unregistration start ***')
-	connection.unregister_connection(config.HOST)
+	connection.unregister_connection(config.CA_HOST)
 	logger.debug('*** Unregisted successfully')

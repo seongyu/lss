@@ -7,8 +7,8 @@ else :
 	logger.setLevel(logging.ERROR)
 
 from .connection import setup
-# from .lora_streaming.models import Store00
-from .lora_streaming.models import Store01
+from .lora_streaming.models import Store00
+# from .lora_streaming.models import Store01
 
 from datetime import datetime
 import json
@@ -18,26 +18,32 @@ def store00(arr):
 		msg = json.dumps(arr['msg'])
 		tms = datetime.strptime(arr['tms'], "%Y-%m-%dT%H:%M:%S.%fZ")
 	except Exception as err:
-		logger.error('sotre01, parsing error. ',err)
+		logger.error('sotre00, parsing error. ',err)
 		tms = datetime.now()
 		msg = ''
 	setup('lora_streaming_t')
 	try:
-		# Store00.create(
+		Store00.create(
+			pid = arr['pid'],
+			fid = arr['fid'],
+			cid = arr['cid'],
+			rcid = arr['rcid'],
+			sdid = arr['sdid'],
+			ttk = arr['ttk'],
+			typ = arr['typ'],
+			tms = tms,
+			msg = msg
+			)
+
+		# Store01.create(
 		# 	eui = arr['eui'],
 		# 	tms = tms,
+		# 	fid = arr['fid'],
+		# 	rcid = arr['rcid'],
+		# 	sdid = arr['sdid'],
 		# 	typ = arr['typ'],
 		# 	msg = msg
 		# 	)
-		Store01.create(
-			eui = arr['eui'],
-			tms = tms,
-			fid = arr['fid'],
-			rcid = arr['rcid'],
-			sdid = arr['sdid'],
-			typ = arr['typ'],
-			msg = msg
-			)
 	except Exception as err:
 		logger.error('store01 save error. ',err)
 		pass

@@ -27,24 +27,38 @@ def f(arr, val):
 
 def callback(ch,method,properties,body):
 	try :
+		# nrr = {} 
+		# orr = json.loads(body)
+		# ks = orr.keys()
+		# for k in ks :
+		# 	if k not in ('eui','timestamp','flow_id','recv_component_id','send_component_id') :
+		# 		typ = k
+
+		# nrr = {
+		# 'eui':orr['eui'],
+		# 'tms':orr['timestamp'],
+		# 'fid':f(orr,'flow_id'),
+		# 'rcid':f(orr,'recv_component_id'),
+		# 'sdid':f(orr,'send_component_id'),
+		# 'typ':typ,
+		# 'msg':orr[typ]
+		# }
+		# logger.info(nrr)
+		# store00(nrr)
 		nrr = {} 
 		orr = json.loads(body)
 		for tyn in orr['message']:
-			typ = tyn	# if {abcd:{..}} => print abcd
-
-		logger.info('============orr============')
-		logger.info(orr)
+			typ = tyn
 		nrr = {
-		'pid':orr['packet_id'],
-		'cid':orr['component_id'],
-		'ttk':orr['trace_ticket'],
-		'fid':f(orr,'flow_id'),
-		'rcid':f(orr,'receiver_id'),
-		'sdid':f(orr,'sender_id'),
+		'eui':orr['eui'],
 		'tms':orr['timestamp'],
+		'fid':f(orr,'flow_id'),
+		'rcid':f(orr,'recv_component_id'),
+		'sdid':f(orr,'send_component_id'),
 		'typ':typ,
 		'msg':orr['message'][typ]
 		}
+		logger.info(nrr)
 		store00(nrr)
 	except Exception as err :
 		pass

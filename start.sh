@@ -9,10 +9,10 @@ case $1 in
 		echo '=== Start lss service ==='
 		python3.6 amqp_interface.py &
 		echo 'Successfully started >>>';;
-	"end")
+	"stop")
 		echo '=== Kill AMQP Interface process ==='
 		kill -9 $process_id
 		echo 'Successfully killed >>>';;
 	*)
-		echo 'Missing command. Input command start/end';;
+		echo 'Missing command. Input command start/stop';;
 esac
