@@ -28,13 +28,12 @@ def f(arr, val):
 def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
-
 		orr = json.loads(body)
-		for tyn in orr['message']:
+		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 
 		logger.info('============orr============')
-		
+		logger.info(orr)
 		nrr = {
 		'pid':orr['packet_id'],
 		'cid':orr['component_id'],
@@ -44,11 +43,10 @@ def callback(ch,method,properties,body):
 		'sdid':f(orr,'sender_id'),
 		'tms':orr['timestamp'],
 		'typ':typ,
-		'msg':orr['message'][typ]
+		'msg':orr['msg'][typ]
 		}
 		store00(nrr)
 	except Exception as err :
-		logger.error(err)
 		pass
 
 
