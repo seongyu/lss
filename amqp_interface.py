@@ -29,14 +29,12 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
 		orr = json.loads(body)
-		if f(orr, 'flow_id') == 12 :
-			logger.info(orr)
+		# if f(orr, 'flow_id') == 12 :
+		# 	logger.info(orr)
 
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
-
-		# logger.info('============orr============')
-		# logger.info(orr)
+			
 		nrr = {
 		'pid':orr['packet_id'],
 		'cid':orr['component_id'],
