@@ -29,6 +29,8 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
 		orr = json.loads(body)
+		if nrr['flow_id'] == 12 :
+			logger.info(orr)
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 
@@ -45,8 +47,6 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr['msg'][typ]
 		}
-		if nrr['fid'] == 12 :
-			logger.info(nrr)
 		store00(nrr)
 	except Exception as err :
 		pass
