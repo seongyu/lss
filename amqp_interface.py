@@ -29,7 +29,7 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
 		orr = json.loads(body)
-		if f(orr, 'sender_id') == None || f(orr, 'sender_id') == '' :
+		if f(orr, 'sender_id') == None or f(orr, 'sender_id') == '' :
 			logger.error(orr)
 
 		for tyn in orr['msg']:
