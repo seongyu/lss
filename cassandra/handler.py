@@ -34,16 +34,6 @@ def store00(arr):
 			tms = tms,
 			msg = msg
 			)
-
-		# Store01.create(
-		# 	eui = arr['eui'],
-		# 	tms = tms,
-		# 	fid = arr['fid'],
-		# 	rcid = arr['rcid'],
-		# 	sdid = arr['sdid'],
-		# 	typ = arr['typ'],
-		# 	msg = msg
-		# 	)
 	except Exception as err:
 		logger.error('store01 save error. ',err)
 		pass
