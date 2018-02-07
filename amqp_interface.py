@@ -29,8 +29,8 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {} 
 		orr = json.loads(body)
-		# if f(orr, 'flow_id') == 12 :
-		# 	logger.info(orr)
+		if f(orr, 'sender_id') == None || f(orr, 'sender_id') == '' :
+			logger.error(orr)
 
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
@@ -47,7 +47,6 @@ def callback(ch,method,properties,body):
 		}
 		store00(nrr)
 	except Exception as err :
-		logger.error(orr)
 		pass
 
 
