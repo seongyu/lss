@@ -7,9 +7,9 @@ if DTP == 'S':
 	MQ_HOST = 'localhost'
 	CA_HOST = '10.140.0.8' #for cassandra name, Use Internal IP
 elif DTP == 'T': #TestMode
-	MQ_HOST = '35.201.132.176' # for develop computer
+	# MQ_HOST = '35.201.132.176' # for develop computer
 	MQ_HOST = 'localhost' # for GCP server
-	# CA_HOST = '10.140.0.8' 
+	CA_HOST = '10.140.0.8' 
 else : #DevelopMode
 	CA_HOST = 'localhost'
 	MQ_HOST = 'localhost'
