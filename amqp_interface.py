@@ -29,6 +29,7 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {}
 		orr = json.loads(body)
+		print(orr)
 		if orr['component_id'] == orr['receiver_id']:
 			return None
 
