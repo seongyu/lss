@@ -1,7 +1,7 @@
 import config
 from lss.util import logging
 import pika
-from lss.cassandra.handler import store00
+from lss.cassandra.handler import store
 import json
 
 logger = logging.getLogger()
@@ -27,39 +27,24 @@ def f(arr, val):
 
 def callback(ch,method,properties,body):
 	try :
-		# nrr = {} 
-		# orr = json.loads(body)
-		# ks = orr.keys()
-		# for k in ks :
-		# 	if k not in ('eui','timestamp','flow_id','recv_component_id','send_component_id') :
-		# 		typ = k
-
-		# nrr = {
-		# 'eui':orr['eui'],
-		# 'tms':orr['timestamp'],
-		# 'fid':f(orr,'flow_id'),
-		# 'rcid':f(orr,'recv_component_id'),
-		# 'sdid':f(orr,'send_component_id'),
-		# 'typ':typ,
-		# 'msg':orr[typ]
-		# }
-		# logger.info(nrr)
-		# store00(nrr)
-		nrr = {} 
+		nrr = {}
 		orr = json.loads(body)
-		for tyn in orr['message']:
-			typ = tyn
+
+		for tyn in orr['msg']:
+			typ = tyn	# if {abcd:{..}} => print abcd
+
 		nrr = {
-		'eui':orr['eui'],
+		'pid':orr['packet_id'],
+		'cid':orr['component_id'],
+		'ttk':orr['trace_ticket'],
+		'fid':orr['flow_id'],
+		'rcid':orr['receiver_id'],
+		'sdid':orr['sender_id'],
 		'tms':orr['timestamp'],
-		'fid':f(orr,'flow_id'),
-		'rcid':f(orr,'recv_component_id'),
-		'sdid':f(orr,'send_component_id'),
 		'typ':typ,
-		'msg':orr['message'][typ]
+		'msg':orr['msg'][typ]
 		}
-		logger.info(nrr)
-		store00(nrr)
+		store(nrr)
 	except Exception as err :
 		pass
 
@@ -79,8 +64,6 @@ def setup_amqp():
 	result = channel.queue_declare(exclusive=True)
 	queue_name = result.method.queue
 	channel.queue_bind(exchange=config.MQ_QUEUE, queue=queue_name)
-
-	# channel.queue_bind(exchange=config.MQ_QUEUE,queue=config.MQ_QUEUE)
 
 	channel.basic_consume(callback,queue=queue_name,no_ack=True)
 	

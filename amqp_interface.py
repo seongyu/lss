@@ -1,7 +1,7 @@
 import config
 from lss.util import logging
 import pika
-from lss.cassandra.handler import store00
+from lss.cassandra.handler import store
 import json
 
 logger = logging.getLogger()
@@ -27,10 +27,10 @@ def f(arr, val):
 
 def callback(ch,method,properties,body):
 	try :
-		nrr = {} 
+		nrr = {}
 		orr = json.loads(body)
-		if f(orr, 'sender_id') == None or f(orr, 'sender_id') == '' :
-			logger.error(orr)
+		if orr['component_id'] == orr['receiver_id']:
+			return None
 
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
@@ -45,7 +45,7 @@ def callback(ch,method,properties,body):
 		'typ':typ,
 		'msg':orr['msg'][typ]
 		}
-		store00(nrr)
+		store(nrr)
 	except Exception as err :
 		pass
 
@@ -65,8 +65,6 @@ def setup_amqp():
 	result = channel.queue_declare(exclusive=True)
 	queue_name = result.method.queue
 	channel.queue_bind(exchange=config.MQ_QUEUE, queue=queue_name)
-
-	# channel.queue_bind(exchange=config.MQ_QUEUE,queue=config.MQ_QUEUE)
 
 	channel.basic_consume(callback,queue=queue_name,no_ack=True)
 	

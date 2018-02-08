@@ -7,27 +7,30 @@ else :
 	logger.setLevel(logging.ERROR)
 
 from .connection import setup
-from .lora_streaming.models import Store00
-# from .lora_streaming.models import Store01
+# from .lora_streaming.models import Store00
+from .lora_streaming.models import Store01
 
 from datetime import datetime
 import json
 
-def store00(arr):
+def store(arr):
 	try:
 		msg = json.dumps(arr['msg'])
 		tms = datetime.strptime(arr['tms'], "%Y-%m-%dT%H:%M:%S.%fZ")
+		ogtg = arr['pid'].split('-')[0] # it will be gw_id or bk_id or hr_id
 	except Exception as err:
-		logger.error('sotre00, parsing error. ',err)
+		logger.error('store : parsing error. ',err)
 		tms = datetime.now()
 		msg = ''
+		ogtg = ''
 	setup('lora_streaming_t')
 	try:
-		Store00.create(
+		Store01.create(
 			pid = arr['pid'],
 			fid = arr['fid'],
 			cid = arr['cid'],
 			rcid = arr['rcid'],
+			ogtg = ogtg,
 			sdid = arr['sdid'],
 			ttk = arr['ttk'],
 			typ = arr['typ'],
@@ -35,5 +38,5 @@ def store00(arr):
 			msg = msg
 			)
 	except Exception as err:
-		logger.error('store01 save error. ',err)
+		logger.error('store : db push error. ',err)
 		pass
