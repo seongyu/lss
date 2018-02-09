@@ -1,5 +1,5 @@
 from cassandra.cqlengine import connection
-import json, time, pyspark
+import json, time
 from pyspark.sql import SparkSession
 from datetime import date, timedelta, datetime
 
@@ -7,14 +7,15 @@ CONN_NM = 'analizer'
 HOST = 'localhost'
 KEYSPACE = 'lora_streaming_t'
 
+fid_set = [12,23,34,45,54,43,32,21]
 
-sc = pyspark.SparkContext()
 spark = SparkSession.builder.appName('queryfy').getOrCreate()
 
 Query = {
-	'get_last_stats' : 'select * from store00 where fid=12 and typ=\'stat\' and sdid=%s and tms >= %s allow filtering',
-	'get_from_to_stat' : 'select * from store00 where fid=12 and typ=\'stat\' and sdid=%s and tms >= %s and tms <= %s allow filtering',
-	'get_stats' : 'select * from store00 where fid=12 and typ=\'stat\' and tms >= %s allow filtering'
+	'get_last_stats' : 'select * from store01 where fid=12 and typ=\'stat\' and sdid=%s and tms >= %s allow filtering',
+	'get_from_to_stat' : 'select * from store01 where fid=12 and typ=\'stat\' and sdid=%s and tms >= %s and tms <= %s allow filtering',
+	'get_stats' : 'select * from store01 where fid=12 and typ=\'stat\' and tms >= %s allow filtering',
+	'get_flow_map' : 'select * from store01 where fid=%s and ogtg = %s and tms >= %s allow filtering'
 }
 
 def db_set(keyspace):
@@ -26,7 +27,38 @@ def db_set(keyspace):
 		connection.register_connection(CONN_NM, [HOST], default=True)
 		connection.session.set_keyspace(keyspace)
 
+def get_flow_map(term, eui):
+	db_set(KEYSPACE)
 
+	if term == 'day' :
+		strtoday = (date.today()+ timedelta(days=-1)).strftime('%Y-%m-%d')
+	elif term == 'week' :
+		strtoday = (date.today()+ timedelta(weeks=-1)).strftime('%Y-%m-%d')
+	elif term == 'month':
+		strtoday = (date.today()+ timedelta(days=-31)).strftime('%Y-%m-%d')
+
+	df = None
+
+	for fid in fid_set:
+		r = connection.session.execute(Query['get_flow_map'],[int(fid),eui,strtoday])
+		rdd = spark.sparkContext.parallelize(r)
+		if rdd.count() <= 0 :
+			pass
+		else :
+			if df :
+				df = df.union(rdd.toDF())
+			else :
+				df = rdd.toDF()
+
+	df.createOrReplaceTempView('flow_map')
+	sql = spark.sql('select fid, cid, count(*) as count from flow_map group by fid, cid')
+	rows = sql.collect()
+
+	rt_val = []
+	for row in rows :
+		rt_val.append(row.asDict())
+
+	return rt_val
 
 def get_stats():
 	db_set(KEYSPACE)
@@ -34,7 +66,7 @@ def get_stats():
 	strtoday = (date.today()+ timedelta(days=-1)).strftime('%Y-%m-%d')
 
 	rows = connection.session.execute(Query['get_stats'],[strtoday])
-	rdd = sc.parallelize(rows)
+	rdd = spark.sparkContext.parallelize(rows)
 
 	rt_val = []
 	if rdd.count() <= 0 :
@@ -46,7 +78,7 @@ def get_stats():
 		rows = sqldf.collect()
 		for row in rows :
 			item = row.asDict()
-			item['tms'] = item['tms'].strftime('%Y-%m-%d %H:%M:%S') + ' GMT'
+			item['tms'] = item['tms'].strftime('%Y-%m-%d %H:%M:%S')
 			rt_val.append(item)
 	return rt_val
 	
@@ -63,7 +95,7 @@ def get_list_stats(term, eui):
 		strtoday = (date.today()+ timedelta(days=-31)).strftime('%Y-%m-%d')
 
 	rows = connection.session.execute(Query['get_last_stats'],[eui, strtoday])
-	rdd = sc.parallelize(rows)
+	rdd = spark.sparkContext.parallelize(rows)
 
 	return mk_arr(rdd)
 
@@ -74,7 +106,7 @@ def get_from_to_stat(f,t,eui):
 	to_dt = datetime.strptime(t,'%Y-%m-%d %H:%M:%S')
 
 	rows = session.execute(Query['get_from_to_stat'],[eui, from_dt, to_dt])
-	rdd = sc.parallelize(rows)
+	rdd = spark.sparkContext.parallelize(rows)
 
 	return mk_arr(rdd)
 
@@ -103,10 +135,8 @@ def mk_arr(rdd):
 from flask import Flask
 from flask_restful import Resource, Api
 
-
 app = Flask(__name__)
 api = Api(app)
-
 
 class GET_STAT(Resource):
 	def get(self):
@@ -123,12 +153,17 @@ class GET_FROM_TO_STAT(Resource):
 		rows = get_from_to_stat(f, t, eui)
 		return rows
 
-# rows = get_last_stats()
-# 		if len(rows) > 0 :
+class GET_FLOW_MAP(Resource):
+	def get(self, term, eui):
+		rows = get_flow_map(term, eui)
+		return rows
+
+api.add_resource(GET_FLOW_MAP, '/map/<term>/<eui>')
+
 api.add_resource(GET_FROM_TO_STAT, '/stat/term/<f>/<t>/<eui>')
 api.add_resource(GET_LIST_STAT, '/stat/<term>/<eui>')
 api.add_resource(GET_STAT, '/stat')
 
 if __name__ == '__main__':
 	app.run(debug=True)
-	print('Server started as 5000')
+
