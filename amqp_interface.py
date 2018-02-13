@@ -47,6 +47,7 @@ def callback(ch,method,properties,body):
 		}
 		store(nrr)
 	except Exception as err :
+		logger.error('error : ',err)
 		pass
 
 

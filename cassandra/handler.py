@@ -23,6 +23,7 @@ def store(arr):
 		tms = datetime.now()
 		msg = ''
 		ogtg = ''
+		
 	setup('lora_streaming_t')
 	try:
 		Store01.create(

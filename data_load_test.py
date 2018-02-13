@@ -165,5 +165,5 @@ api.add_resource(GET_LIST_STAT, '/stat/<term>/<eui>')
 api.add_resource(GET_STAT, '/stat')
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(port=3101)
 
