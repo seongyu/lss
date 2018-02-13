@@ -28,11 +28,9 @@ def f(arr, val):
 def callback(ch,method,properties,body):
 	try :
 		nrr = {}
-		print(body)
 		orr = json.loads(body.decode('utf-8'))
 		if orr['component_id'] == orr['sender_id']:
 			return None
-		print(orr)
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 		nrr = {
