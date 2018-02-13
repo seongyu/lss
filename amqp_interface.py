@@ -29,7 +29,7 @@ def callback(ch,method,properties,body):
 	try :
 		nrr = {}
 		print(body)
-		orr = json.loads(body)
+		orr = json.loads(body.decode('utf-8'))
 		if orr['component_id'] == orr['sender_id']:
 			return None
 		print(orr)
