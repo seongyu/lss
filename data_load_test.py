@@ -3,6 +3,9 @@ import json, time
 from pyspark.sql import SparkSession
 from datetime import date, timedelta, datetime
 
+WPORT = 8101
+WHOST = '0.0.0.0'
+
 CONN_NM = 'analizer'
 HOST = 'localhost'
 KEYSPACE = 'lora_streaming_t'
@@ -165,5 +168,5 @@ api.add_resource(GET_LIST_STAT, '/stat/<term>/<eui>')
 api.add_resource(GET_STAT, '/stat')
 
 if __name__ == '__main__':
-	app.run(port=8101)
+	app.run(host=WHOST,port=WPORT)
 
