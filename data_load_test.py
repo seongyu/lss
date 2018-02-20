@@ -1,3 +1,4 @@
+import config
 from cassandra.cqlengine import connection
 import json, time
 from pyspark.sql import SparkSession
@@ -7,8 +8,9 @@ WPORT = 8101
 WHOST = '0.0.0.0'
 
 CONN_NM = 'analizer'
-HOST = 'localhost'
 KEYSPACE = 'lora_streaming_t'
+
+# config.DTP = 'D' # for DEVELOP
 
 fid_set = [12,23,34,45,54,43,32,21]
 
@@ -26,8 +28,8 @@ def db_set(keyspace):
 		connection.set_default_connection(CONN_NM)
 	except Exception as err:
 		print('db set exception occured')
-		connection.unregister_connection(HOST)
-		connection.register_connection(CONN_NM, [HOST], default=True)
+		connection.unregister_connection(CONN_NM)
+		connection.register_connection(CONN_NM, config.CASSANDRA_CONTACT_POINTS[config.DTP], default=True)
 		connection.session.set_keyspace(keyspace)
 
 def get_flow_map(term, eui):
