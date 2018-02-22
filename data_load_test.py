@@ -138,10 +138,12 @@ def mk_arr(rdd):
 
 # for http
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, origins="*")
 
 class GET_STAT(Resource):
 	def get(self):

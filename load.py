@@ -1,56 +1,33 @@
-from cassandra.cluster import Cluster
-from websocket_server import WebsocketServer
+import pymysql
 
-import json, time
+HOST = "52.78.41.43"
+PORT = 3306
+USER = "lora"
+PSWD = "fhfk1!"
+DBNAME = "lora_account"
 
-#import config
-#HOST = config.HOST
+conn = pymysql.connect(
+	host=HOST,
+	port=PORT,
+	user=USER,
+	passwd=PSWD,
+	db=DBNAME
+	)
 
+cur = conn.cursor()
 
-HOST = ['localhost']
-KEYSPACE = 'lora_streaming_t'
-PORT = 30000
+query = 'select * from applications'
 
-cluster = Cluster(HOST)
-session = cluster.connect(KEYSPACE)
+cur.execute(query)
 
-Query = {
-	'get_devices_stat' : 'select * from store01 where fid=12 and typ=\'stat\' limit 1 allow filtering'
-}
-
-date.today().strftime('%Y-%m-%d')
-def get_stat():
-	rows = session.execute(Query['get_one_with_eui_typ'],['BR_1','stat'])
-	try:
-		row = rows[0]
-		item = {
-			'eui':row.eui,
-			'timestamp':row.tms.strftime('%Y-%m-%d %H:%M:%S'),
-			'flow_id':row.fid,
-			'receive_component_id':row.rcid,
-			'send_component_id':row.sdid,
-			'msg':json.loads(row.msg)
-		}
-	except:
-		item = {
-		'msg':'No data'
-		}
-	return item
+for row in cur:
+	print(row)
 
 
-def new_client(client,server):
-	n = 0
-	while True:
-		time.sleep(10)
-		row = get_stat()
-		print('send row : ',n)
-		n = n+1
-		server.send_message_to_all(json.dumps(row))
 
-def client_left(client, server):
-	print("Client(%d) disconnected", client)
 
-server = WebsocketServer(PORT)
-server.set_fn_new_client(new_client)
-print('Websocket Server Started...')
-server.run_forever()
+# ('hanapp', '', datetime.datetime(2018, 1, 22, 5, 35, 31), 'handler_ts1', '4367746c24215a395c2a7761', 'EFB1A3E886B6E1BB')
+# ('test2', 'test2', datetime.datetime(2017, 11, 13, 12, 22, 49), 'handler2', '7e50533372743d3444616751', '70B3D57EF0000156')
+# ('test3', '', datetime.datetime(2017, 11, 23, 17, 11, 17), 'handler_ts1', '7e50533372743d3444616751', 'E8ACA1E28BA0EC86')
+# ('test_han_app', '', datetime.datetime(2018, 2, 21, 5, 40, 42), 'handler_ts1', '4367746c24215a395c2a7761', 'E1A983E585A0EE86')
+
