@@ -10,7 +10,7 @@ WHOST = '0.0.0.0'
 CONN_NM = 'analizer'
 KEYSPACE = 'lora_streaming_t'
 
-# config.DTP = 'D' # for DEVELOP
+config.DTP = 'D' # for DEVELOP
 
 fid_set = [12,23,34,45,54,43,32,21]
 
@@ -56,7 +56,7 @@ def get_flow_map(term, eui):
 				df = rdd.toDF()
 
 	df.createOrReplaceTempView('flow_map')
-	sql = spark.sql('select fid, cid, count(*) as count from flow_map group by fid, cid')
+	sql = spark.sql('select fid, rcid, sdid, count(*) as count from flow_map group by fid, rcid, sdid')
 	rows = sql.collect()
 
 	rt_val = []
@@ -135,6 +135,7 @@ def mk_arr(rdd):
 				rt_val.append(item)
 			n = n + 1
 	return rt_val
+
 
 # for http
 from flask import Flask
