@@ -10,7 +10,7 @@ WHOST = '0.0.0.0'
 CONN_NM = 'analizer'
 KEYSPACE = 'lora_streaming_t'
 
-config.DTP = 'D' # for DEVELOP
+# config.DTP = 'D' # for DEVELOP
 
 fid_set = [12,23,34,45,54,43,32,21]
 
