@@ -1,9 +1,9 @@
 from websocket_server import WebsocketServer
 import json, _thread, time
 PORT=9100
-
+HOST="0.0.0.0"
 clients = []
-server = WebsocketServer(PORT)
+server = WebsocketServer(host=HOST, port=PORT)
 
 def new_client(client, server):
   print("New client connected and was given id %d" % client['id'])
