@@ -33,7 +33,7 @@ def run_socketServer(name):
   server.set_fn_new_client(new_client)
   server.set_fn_client_left(client_left)
   # server.set_fn_message_received(message_received)
-  print('start server now')
+  print('start socket server now')
   server.run_forever()
 
 _thread.start_new_thread(run_socketServer, ('run socket',))
