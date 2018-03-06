@@ -3,6 +3,7 @@ from lss.util import logging
 import pika
 from lss.cassandra.handler import store
 import json
+import socket_api as sc
 
 logger = logging.getLogger()
 
@@ -31,6 +32,8 @@ def callback(ch,method,properties,body):
 		orr = json.loads(body.decode('utf-8'))
 		if orr['component_id'] == orr['sender_id']:
 			return None
+		if int(orr['fid']) == 12 :
+			sc.send_message_cli(orr)
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 		nrr = {
