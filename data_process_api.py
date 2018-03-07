@@ -20,7 +20,7 @@ WHOST = '0.0.0.0'
 CONN_NM = 'analizer'
 KEYSPACE = 'lora_streaming_t'
 
-config.DTP = 'D' # for DEVELOP
+# config.DTP = 'D' # for DEVELOP
 
 Query = {
   'get_last_stats' : 'select * from store01 where fid=12 and typ=\'stat\' and sdid=%s and tms >= %s allow filtering',
