@@ -2,20 +2,16 @@ from websocket_server import WebsocketServer
 import json, _thread, time
 PORT=9100
 HOST="0.0.0.0"
-clients = []
 server = WebsocketServer(host=HOST, port=PORT)
 
 def new_client(client, server):
   print("New client connected and was given id %d" % client['id'])
-  clients.append(client)
 
-def send_message_cli(arr):
-  for cli in clients :
-    server.send_message(cli,json.dumps(arr))
+def send_message_to_all(orr):
+  server.send_message_to_all(json.dumps(orr))
 
 
 def client_left(client, server):
-  clients.remove(client)
   print("Client(%d) disconnected" % client['id'])
 
 
@@ -34,6 +30,13 @@ def run_socketServer(name):
   server.set_fn_client_left(client_left)
   # server.set_fn_message_received(message_received)
   print('start socket server now')
-  server.run_forever()
+  server.serve_forever()
 
-_thread.start_new_thread(run_socketServer, ('run socket',))
+
+print('ready to start...')
+
+try :
+  _thread.start_new_thread(run_socketServer, ('run socket',))
+  # run_socketServer('test')
+except Exception as err :
+  print(err)

@@ -33,7 +33,7 @@ def callback(ch,method,properties,body):
 		if orr['component_id'] == orr['sender_id']:
 			return None
 		if int(orr['flow_id']) == 12 :
-			sc.send_message_cli(orr)
+			sc.send_message_to_all(orr)
 		for tyn in orr['msg']:
 			typ = tyn	# if {abcd:{..}} => print abcd
 		nrr = {

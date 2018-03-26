@@ -7,54 +7,48 @@
     
     function init() {
       // Connect to Web Socket
-      ws = new WebSocket("ws://35.201.132.176:9100");
+      ws = new WebSocket("ws://localhost:9999");
+      // ws2 = new WebSocket("ws://localhost:9998");
       // Set event handlers.
-      ws.onopen = function() {
-        output("onopen");
-      };
-      
-      ws.onmessage = function(e) {
-        // e.data contains received string.
-        output("onmessage: " + e.data);
-      };
-      
-      ws.onclose = function() {
-        output("onclose");
-      };
-      ws.onerror = function(e) {
-        output("onerror");
-        console.log(e)
-      };
-    }
-    
-    function onSubmit() {
-      var input = document.getElementById("input");
-      // You can send message to the Web Socket using ws.send.
-      ws.send(input.value);
-      output("send: " + input.value);
-      input.value = "";
-      input.focus();
-    }
-    
-    function onCloseClick() {
-      ws.close();
-    }
-    
-    function output(str) {
-      console.log(str)
-      var log = document.getElementById("log");
-      var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
-        replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-      log.innerHTML = escaped + "<br>" + log.innerHTML;
+      if(ws){
+        ws.onopen = function() {
+          console.log("onopen");
+        };
+        
+        ws.onmessage = function(e) {
+          // e.data contains received string.
+          console.log(e.data);
+        };
+        
+        ws.onclose = function() {
+          console.log("onclose");
+        };
+        ws.onerror = function(e) {
+          console.log(e)
+        };
+      }
+
+      if(ws2){
+        ws2.onopen = function() {
+          console.log("onopen");
+        };
+        
+        ws2.onmessage = function(e) {
+          // e.data contains received string.
+          console.log("onmessage: " + e.data);
+        };
+        
+        ws2.onclose = function() {
+          console.log("onclose");
+        };
+        ws2.onerror = function(e) {
+          console.log(e)
+        };
+      }
     }
   </script>
 </head>
 <body onload="init();">
-  <form onsubmit="onSubmit(); return false;">
-    <input type="text" id="input">
-    <input type="submit" value="Send">
-    <button onclick="onCloseClick(); return false;">close</button>
-  </form>
-  <div id="log"></div>
+  WebSocket Test Client
 </body>
 </html>
