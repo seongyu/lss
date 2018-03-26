@@ -6,9 +6,9 @@ from datetime import date, timedelta, datetime
 import pyspark 
 
 sparkconf = pyspark.SparkConf().setAll([
-  ('spark.executor.cores','2'),
+  ('spark.executor.cores','1'),
   ('spark.executor.memory','2g'),
-  ('spark.cores.max', '2'),
+  ('spark.cores.max', '1'),
   ('spark.driver.memory','2g')])
 
 # spark = SparkSession.builder.appName('queryfy').config(conf=sparkconf).getOrCreate()
