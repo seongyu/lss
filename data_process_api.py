@@ -69,7 +69,7 @@ def get_stats():
   db_set(KEYSPACE)
 
   rt_val = []
-  dt = fn.get_date('month')
+  dt = fn.get_date('week')
   r = connection.session.execute(Query['get_stats'],[dt])
   arr = fn.get_arr(r)
 
@@ -83,7 +83,7 @@ def get_stats():
     item = row[1].data[0]
     item['tms'] = item['tms'].strftime('%Y-%m-%d %H:%M:%S')
     rt_val.append(item)
-
+  print(rt)
   rdd.unpersist()
   return rt_val
 
