@@ -69,7 +69,7 @@ def get_stats():
   db_set(KEYSPACE)
 
   rt_val = []
-  dt = fn.get_date('week')
+  dt = fn.get_date('month')
   r = connection.session.execute(Query['get_stats'],[dt])
   arr = fn.get_arr(r)
 
