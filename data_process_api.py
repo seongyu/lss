@@ -83,7 +83,6 @@ def get_stats():
     item = row[1].data[0]
     item['tms'] = item['tms'].strftime('%Y-%m-%d %H:%M:%S')
     rt_val.append(item)
-  print(rt)
   rdd.unpersist()
   return rt_val
 
